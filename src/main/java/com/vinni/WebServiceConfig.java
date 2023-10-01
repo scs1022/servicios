@@ -16,8 +16,10 @@ public class WebServiceConfig {
 
     @Bean
     public Endpoint usuarioEndpoint() {
-        Endpoint endpoint = Endpoint.publish("http://localhost:8081/usuarios", soapImplementacion);
+        //Endpoint endpoint = Endpoint.publish("http://localhost:8081/usuarios", soapImplementacion);
         //Endpoint endpoint = Endpoint.publish("https://serviciossoap.azurewebsites.net/usuarios", soapImplementacion);
+        Endpoint endpoint = Endpoint.publish("/usuarios", soapImplementacion);
+
 
         return endpoint;
     }
