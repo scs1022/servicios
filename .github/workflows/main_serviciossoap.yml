@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # Cambiamos a Node.js versión 16
+
       - name: Set up Java version
         uses: actions/setup-java@v1
         with:
