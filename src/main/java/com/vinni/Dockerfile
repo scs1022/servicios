@@ -12,3 +12,4 @@ EXPOSE 8080
 
 # Run the JAR file
 CMD ["java", "-jar", "app.jar"]
+#dockerfile
