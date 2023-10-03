@@ -6,15 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// import com.vinni.dto.Banco;
-// import com.vinni.dto.DatosEntrada;
-// import com.vinni.dto.DatosSalida;
-// import com.vinni.dto.Universidad;
-import com.vinni.dto.Usuario;
-import com.vinni.dto.Vehiculo;
-//import com.vinni.mock.Datos;
+import com.vinni.entidad.Usuario;
+import com.vinni.entidad.Vehiculo;
 import com.vinni.repositorios.UsuarioRepositorio;
-//import org.springframework.stereotype.Service;
+
 import com.vinni.repositorios.VehiculoRepositorio;
 
 import jakarta.jws.WebMethod;
@@ -43,62 +38,6 @@ public class SOAPImplementacion {
         return usuarioRepositorio.findAll();
     }
 
-    // @WebMethod(operationName = "obtener")
-    // public List<Usuario> getUsuarios() {
-
-    // return datos.usuariosList;
-    // }
-
-    // @WebMethod(operationName = "adicionar")
-    // public void addUsuario(@WebParam Usuario usuario) {
-    // datos.adicionarUsuario(usuario);
-    // }
-
-    // @WebMethod(operationName = "consultaUniversidad")
-    // public Universidad consulta(@WebParam String nit) {
-    //     return new Universidad("nit", "nit");
-    // }
-
-    // @WebMethod(operationName = "dataIn")
-    // public DatosEntrada DataIn(@WebParam String cedula) {
-    //     return new DatosEntrada(123, "28/9/23");
-    // }
-
-    // @WebMethod(operationName = "consultaSaldo")
-    // public DatosSalida DataOut(@WebParam DatosEntrada datos) {
-    //     // System.out.println(datos.getCedula());
-    //     return new DatosSalida(23, 123, new Banco(123, "Miguel"));
-    // }
-
-    // @WebMethod(operationName = "consultaValorSeguro")
-    // public Long consultaValorSeguro(@WebParam String placa) {
-    // Vehiculo vehiculo = datos.consultarVehiculo(placa);
-    // int modelo = vehiculo.getModelo();
-    // int antiguedad = 2023 - modelo;
-    // double porcentajeAntiguedad = antiguedad * 0.2; // 2% por cada 10 años
-    // double porcentaje = (porcentajeAntiguedad / 100) + 0.1;
-
-    // // Long Seguro = (long)
-    // //
-    // ((vehiculo.getPrecio()*0.1)+(vehiculo.getPrecio()*(porcentajeAntiguedad/100)));
-    // Long Seguro = (long) (vehiculo.getPrecio() * porcentaje);
-
-    // return Seguro;
-    // }
-
-    // @WebMethod(operationName = "consultaValorSeguro2")
-    // public Long consultaValorSeguro2(@WebParam String placa) {
-    //     Vehiculo vehiculo = datos.consultarVehiculo(placa);
-
-    //     return vehiculo.consultarSeguro();
-    // }
-
-    // @WebMethod(operationName = "consultaValorSeguro3")
-    // public Long consultaValorSeguro3(@WebParam String placa) {
-    //     Vehiculo vehiculo = datos.consultarVehiculo(placa);
-
-    //     return vehiculo.getValorSeguro();
-    // }
 
     @WebMethod(operationName = "consultaValorSeguro")
     public Long consultaValorSeguro(@WebParam(name = "placaVehiculo") String placa) {
