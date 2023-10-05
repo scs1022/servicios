@@ -12,6 +12,9 @@ public class Vehiculo implements Serializable {
     private String placa;
     private int modelo;
     private long precio;
+    private int UltimoAnoPagoSOAT;
+
+    
     @Transient
     private Long ValorSeguro;
 
@@ -37,6 +40,12 @@ public class Vehiculo implements Serializable {
     public Long getValorSeguro() {
         return ValorSeguro;
     }
+    public int getUltimoAnoPagoSOAT() {
+        return UltimoAnoPagoSOAT;
+    }
+    public void setUltimoAnoPagoSOAT(int ultimoAnoPagoSOAT) {
+        UltimoAnoPagoSOAT = ultimoAnoPagoSOAT;
+    }
     
 
     public Vehiculo(String placa, int modelo, long precio) {
@@ -46,6 +55,13 @@ public class Vehiculo implements Serializable {
     }
 
 
+    public Vehiculo(String placa, int modelo, long precio, int ultimoAnoPagoSOAT, Long valorSeguro) {
+        this.placa = placa;
+        this.modelo = modelo;
+        this.precio = precio;
+        UltimoAnoPagoSOAT = ultimoAnoPagoSOAT;
+        ValorSeguro = valorSeguro;
+    }
     public Long consultarSeguro() {
         int antiguedad = 2023 - this.modelo;
         double porcentajeAntiguedad = antiguedad * 0.002; // 2% por cada 10 años
@@ -53,5 +69,11 @@ public class Vehiculo implements Serializable {
         return this.ValorSeguro;
     }
     public Vehiculo() {
+    }
+    public Vehiculo(String placa, int modelo, long precio, int ultimoAnoPagoSOAT) {
+        this.placa = placa;
+        this.modelo = modelo;
+        this.precio = precio;
+        UltimoAnoPagoSOAT = ultimoAnoPagoSOAT;
     }
 }

@@ -26,25 +26,35 @@ public class SOAPImplementacion {
     @Autowired
     private VehiculoRepositorio vehiculoRepositorio;
 
-    //private Datos datos = new Datos();
+    // private Datos datos = new Datos();
 
     @WebMethod(operationName = "adicionar")
-    public void addUsuario(@WebParam Usuario usuario) {
+    private void addUsuario(@WebParam Usuario usuario) {
         usuarioRepositorio.save(usuario);
     }
 
     @WebMethod(operationName = "obtener")
-    public List<Usuario> getUsuarios() {
+    private List<Usuario> getUsuarios() {
         return usuarioRepositorio.findAll();
     }
 
+    @WebMethod(operationName = "obtenerVehiculos")
+    public List<Vehiculo> consultarVehiculos() {
+        return vehiculoRepositorio.findAll();
+    }
+
+    @WebMethod(operationName = "obtenerVehiculo")
+    public Vehiculo obtenerVehiculo(@WebParam(name = "placaVehiculo") String placa){
+        Vehiculo vehiculo = vehiculoRepositorio.findById(placa).orElse(null);
+        return vehiculo;
+    }
 
     @WebMethod(operationName = "consultaValorSeguro")
     public Long consultaValorSeguro(@WebParam(name = "placaVehiculo") String placa) {
         Vehiculo vehiculo = vehiculoRepositorio.findById(placa).orElse(null);
 
         if (vehiculo == null) {
-            
+
             return null;
         }
 
@@ -59,7 +69,7 @@ public class SOAPImplementacion {
     }
 
     @WebMethod(operationName = "consultaValorSeguro2")
-    public Long consultaValorSeguro2(@WebParam(name = "placaVehiculo") String placa) {
+    private Long consultaValorSeguro2(@WebParam(name = "placaVehiculo") String placa) {
         Optional<Vehiculo> vehiculoOptional = vehiculoRepositorio.findById(placa);
         if (vehiculoOptional.isPresent()) {
             Vehiculo vehiculo = vehiculoOptional.get();
@@ -71,7 +81,7 @@ public class SOAPImplementacion {
     }
 
     @WebMethod(operationName = "consultaValorSeguro3")
-    public Long consultaValorSeguro3(@WebParam(name = "placaVehiculo") String placa) {
+    private Long consultaValorSeguro3(@WebParam(name = "placaVehiculo") String placa) {
         Optional<Vehiculo> vehiculoOptional = vehiculoRepositorio.findById(placa);
         if (vehiculoOptional.isPresent()) {
             Vehiculo vehiculo = vehiculoOptional.get();
@@ -82,9 +92,10 @@ public class SOAPImplementacion {
         }
     }
 
-
     @WebMethod(operationName = "crearVehiculo")
-    public boolean crearVehiculo(@WebParam(name = "placaVehiculo") String placa, @WebParam(name = "modeloVehiculo") int modelo, @WebParam(name = "precioVehiculo") long precio)  {
+    public boolean crearVehiculo(@WebParam(name = "placaVehiculo") String placa,
+            @WebParam(name = "modeloVehiculo") int modelo, @WebParam(name = "precioVehiculo") long precio,
+            @WebParam(name = "ultimoAnoSOAT") int ultimoAnoPagoSOAT) {
         try {
             // Verificar si ya existe un vehículo con la misma placa
             Optional<Vehiculo> existingVehiculo = vehiculoRepositorio.findById(placa);
@@ -93,7 +104,7 @@ public class SOAPImplementacion {
                 return false;
             } else {
                 // Crear un nuevo vehículo
-                Vehiculo vehiculo = new Vehiculo(placa, modelo, precio);
+                Vehiculo vehiculo = new Vehiculo(placa, modelo, precio, ultimoAnoPagoSOAT);
                 vehiculoRepositorio.save(vehiculo);
                 return true;
             }
@@ -104,6 +115,44 @@ public class SOAPImplementacion {
         }
     }
 
+    @WebMethod(operationName = "consultarSOAT")
+    public String consultarSOAT(@WebParam(name = "placaVehiculo") String placa) {
+        Vehiculo vehiculo = vehiculoRepositorio.findById(placa).orElse(null);
+        if (vehiculo == null) {
+            return "Vehículo no encontrado";
+        }
 
+        int modelo = vehiculo.getModelo();
+        int antiguedad = 2023 - modelo;
+        Long valorSOAT;
+        String estado;
 
+        if (antiguedad < 5) {
+            valorSOAT = 100000L;
+        } else {
+            valorSOAT = 150000L;
+        }
+
+        // Verificar si el SOAT está pagado
+        if (vehiculo.getUltimoAnoPagoSOAT() == 2023) {
+            estado = "Activo"; // Pagado
+        } else {
+            estado = "Inactivo"; // No pagado
+        }
+
+        return "Valor SOAT: " + valorSOAT + ", Estado: " + estado;
+    }
+
+    @WebMethod(operationName = "consultarTodoRiesgo")
+    public Long consultarTodoRiesgo(@WebParam(name = "placaVehiculo") String placa) {
+        Vehiculo vehiculo = vehiculoRepositorio.findById(placa).orElse(null);
+        if (vehiculo == null) {
+            return null;
+        }
+
+        double porcentaje = 0.05; // 5%
+        Long valorSeguroTodoRiesgo = (long) (vehiculo.getPrecio() * porcentaje);
+
+        return valorSeguroTodoRiesgo;
+    }
 }
