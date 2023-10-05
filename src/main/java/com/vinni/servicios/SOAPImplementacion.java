@@ -155,4 +155,5 @@ public class SOAPImplementacion {
 
         return valorSeguroTodoRiesgo;
     }
+    //metodos?
 }
